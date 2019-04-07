@@ -3,7 +3,8 @@ import Navbar from "./Components/Navbar/Navbar";
 import Home from "./Routes/Home/Home";
 import Detail from "./Routes/Detail/Detail";
 import Search from "./Routes/Search/Search";
-import Footer from "./Routes/Footer/Footer";
+import Logreg from "./Routes/Logreg/Logreg";
+import Dashboard from "./Routes/Dashboard/Dashboard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 class App extends Component {
@@ -19,8 +20,9 @@ class App extends Component {
             <Route path="/" exact component={Home} />
             <Route path="/article/:_id" component={Detail} />
             <Route path="/search/" component={Search} />
+            <Route path="/auth/" component={Logreg} />
+            <Route path="/admin/" component={Dashboard} />
           </Switch>
-          <Footer />
         </div>
       </Router>
     );
@@ -36,7 +38,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     @import url('https://fonts.googleapis.com/css?family=Lato');
     font-family: 'Lato', sans-serif;
-    margin-top: 100px;
+    ${"" /* margin-top: 100px; */}
     font-size: 16px;
   }
   a{text-decoration: none;}

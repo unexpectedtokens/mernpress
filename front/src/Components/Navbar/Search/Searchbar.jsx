@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 
 const Searchcont = styled.div`
   float: right;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
 `;
 
 const Searchicon = styled.p`

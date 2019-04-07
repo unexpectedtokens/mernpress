@@ -5,6 +5,8 @@ import styled from "styled-components";
 
 const Homecont = styled.div`
   width: 70%;
+  padding: 100px 0;
+  margin-left: 8%;
   @media (max-width: 800px) {
     width: 85%;
     margin-left: 7.5%;

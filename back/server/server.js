@@ -5,6 +5,8 @@ const Post = require("../db/models/Post");
 const db = require("../db/db");
 const postRoute = require("./routes/posts");
 const userRoute = require("./routes/users");
+const cors = require("cors");
+const corsOptions = require("../config/cors");
 
 //public path
 const path = require("path");
@@ -16,19 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //cors header setup
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
+app.use(cors({ corsOptions }));
 //passport config
 const passport = require("passport");
 require("../config/passport.js")(passport);

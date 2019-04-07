@@ -1,50 +1,80 @@
 import React, { Component } from "react";
-import { Searchbar, Searchcont } from "./Searchcomponents/Searchbar";
+import {
+  Searchbar,
+  Searchcont,
+  Errormessage
+} from "../../Components/Searchcomponents/Searchbar";
 import axios from "axios";
-import posts from "../Components/Posts/Posts";
-import post from "../Components/Posts/Post/Post";
+import Posts from "../../Components/Posts/Posts";
+import Footer from "../../Components/Footer/Footer";
 
 export default class Search extends Component {
   state = {
-    toBeSearced: "",
-    posts: []
+    toBeSearched: "",
+    posts: [],
+    showError: false
   };
+
   componentDidMount() {
     const checkKeyPressed = e => {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13 && this.state.toBeSearched !== "") {
         this.Search();
       }
     };
     window.addEventListener("keydown", checkKeyPressed, false);
   }
+
+  componentWillUnmount() {
+    const checkKeyPressed = e => {
+      if (e.keyCode) {
+        this.Search();
+      }
+    };
+    window.removeEventListener("keydown", checkKeyPressed, false);
+  }
+
   Search = () => {
     axios
-      .get(`http://localhost:5000/posts/search/${this.state.toBeSearced}`)
+      .get(`http://localhost:5000/posts/search/${this.state.toBeSearched}`)
       .then(res => {
-        console.log(res);
+        if (res.data.length === 0) {
+          return this.setState({ showError: true, posts: [] });
+        }
+        this.setState({ posts: res.data, showError: false });
       })
       .catch(e => {
         throw e;
       });
   };
-  handleSearch = e => {
-    this.setState({ toBeSearced: e.target.value });
-  };
-  render() {
-    let posts = null;
-    if (this.state.posts.lenght > 0) {
-      // posts = <Posts posts={} />;
-    }
 
+  handleSearch = e => {
+    this.setState({ toBeSearched: e.target.value });
+    if (this.state.toBeSearched === "") {
+      this.setState({ showError: false });
+    }
+  };
+
+  render() {
+    let error = null;
+    const errorString = `No articles found with title "${
+      this.state.toBeSearched
+    }"`;
+    if (this.state.showError) {
+      error = <Errormessage>{errorString}</Errormessage>;
+    }
     return (
-      <Searchcont>
-        <Searchbar
-          type="text"
-          placeholder="Search"
-          onChange={this.handleSearch}
-        />
-        {posts}
-      </Searchcont>
+      <div>
+        <Searchcont>
+          <Searchbar
+            type="text"
+            placeholder="Search Mernpress"
+            onChange={this.handleSearch}
+          />
+          {error}
+        </Searchcont>
+        <Posts posts={this.state.posts} />
+        <Footer />
+      </div>
     );
   }
 }

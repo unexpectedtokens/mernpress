@@ -8,6 +8,7 @@ const Socbarcont = styled.ul`
   height: 100px;
   background: white;
   left: 3%;
+  top: 80px;
   @media (max-width: 800px) {
     display: none;
   }

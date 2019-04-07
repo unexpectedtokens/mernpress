@@ -1,10 +1,32 @@
 import React, { Component } from "react";
-import Posts from "./Posts/Posts";
+import Posts from "../../Components/Posts/Posts";
+import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
+import styled from "styled-components";
+import { CSSTransition } from "react-transition-group";
+
+const Main = styled.main`
+  &.fade-enter {
+    opacity: 0;
+  }
+
+  &.fade-enter-active {
+    opacity: 1;
+  }
+
+  &.fade-exit {
+    opacity: 1;
+  }
+
+  &.fade-exit-active {
+    opacity: 0;
+  }
+`;
 
 class Home extends Component {
   state = {
-    posts: []
+    posts: [],
+    active: true
   };
 
   componentWillMount() {
@@ -21,9 +43,19 @@ class Home extends Component {
 
   render() {
     return (
-      <main>
-        <Posts posts={this.state.posts} />
-      </main>
+      <div>
+        <CSSTransition
+          in={this.state.active}
+          classNames="fade"
+          timeout={300}
+          unmountOnExit
+        >
+          <Main>
+            <Posts posts={this.state.posts} />
+          </Main>
+        </CSSTransition>
+        <Footer />
+      </div>
     );
   }
 }

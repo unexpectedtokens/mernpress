@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Article from "./Article/Article";
-import Articlecont from "./Articlecont/Articlecont";
-import Socbar from "../Socbar/Socbar";
+import Article from "../../Components/Article/Article";
+import Articlecont from "../../Components/Articlecont/Articlecont";
+import Socbar from "../../Components/Socbar/Socbar";
+import Footer from "../../Components/Footer/Footer";
+
 class Detail extends Component {
   state = {
     post: {},
@@ -39,16 +41,19 @@ class Detail extends Component {
       socbar = <Socbar likes={this.state.post.likes} />;
     }
     return (
-      <Articlecont>
-        {socbar}
-        <Article
-          title={this.state.post.title}
-          content={this.state.post.content}
-          createdAt={this.state.post.createdAt}
-          img={this.state.post.imgLink}
-          vid={this.state.post.vidLink}
-        />
-      </Articlecont>
+      <div>
+        <Articlecont>
+          {socbar}
+          <Article
+            title={this.state.post.title}
+            content={this.state.post.content}
+            createdAt={this.state.post.createdAt}
+            img={this.state.post.imgLink}
+            vid={this.state.post.vidLink}
+          />
+        </Articlecont>
+        <Footer />
+      </div>
     );
   }
 }

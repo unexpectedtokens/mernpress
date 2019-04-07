@@ -21,45 +21,48 @@ router.use("/article/:id", (req, res) => {
 //route to find a post (for the search function)
 router.use("/search/:handle", (req, res) => {
   const title = req.params.handle;
-  res.send(title);
+  Post.find({ title })
+    .then(doc => {
+      if (!doc) {
+        return res.status(404).json({ eMsg: "No articles found" });
+      }
+      res.status(200).json(doc);
+    })
+    .catch(e => res.status(400).json({ eMsg: "Something went wrong" }));
 });
 
 //route to add a new post, only if logged in
 router.use("/addpost", (req, res) => {
   const reqBody = req.body;
   const title = reqBody.title;
-  const content = reqBody.content;
-  const imgLink = req.body.imgLink;
-  const vidLink = req.body.vidLink;
-  const date = new Date();
-  const month = date.getMonth();
-  const year = date.getFullYear();
-  const createdAt = month + "-" + year;
 
-  const post = new Post({
-    title,
-    content,
-    imgLink,
-    createdAt,
-    vidLink
-  });
   Post.findOne({ title })
-    .then(result => {
-      if (result) {
-        res.status(400).json({ eMsg: "Post title already exists" });
-      } else if (!result) {
+    .then(article => {
+      if (article) {
+        return res.status(400).json({ eMsg: "Title already exists" });
+      }
+      const post = new Post();
+      post.title = title;
+      post.content = reqBody.content;
+      const date = new Date();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      const createdAt = month + "-" + year;
+      post.createdAt = createdAt;
+      post.imgLink = req.body.imgLink;
+      if (post.title && post.content) {
         post
           .save()
-          .then(doc => {
-            res.json({ message: "success" });
+          .then(article => {
+            res.status(200).json(article);
           })
-          .catch(e => {
-            console.log(e);
-          });
+          .catch(e =>
+            res.status(400).json({ eMsg: "Unable to save article", error: e })
+          );
       }
     })
     .catch(e => {
-      res.json(e);
+      res.status(400).json({ eMsg: "Something went wrong" });
     });
 });
 

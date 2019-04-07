@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import vid from "../../../media/wii.mp3";
-import duck from "../../../media/duck.mp4";
+import vid from "../../media/wii.mp3";
+import duck from "../../media/duck.mp4";
 const Title = styled.h1`
   font-size: 2em;
   margin-bottom: 10px;

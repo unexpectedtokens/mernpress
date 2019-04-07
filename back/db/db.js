@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const keys = require("../config/keys");
 const db = mongoose
-  .connect("mongodb://localhost:27017/nodepress", { useNewUrlParser: true })
+  .connect(keys.mongoURI_local, { useNewUrlParser: true })
   .then(docs => {
     console.log("Connected to db");
   })
