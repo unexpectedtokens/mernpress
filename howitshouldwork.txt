@@ -1,3 +1,0 @@
-Start at main route(home page) display all articles.
-When you click on an article you are routed to a new page containing the full article.
-Navbar should remain visible on every page. With the logo in the top left which functions as a link to the homepage.
